@@ -11,11 +11,12 @@ from django.contrib.messages.views import SuccessMessageMixin
 class IndexView(TemplateView):
     template_name = "index.html"
 
-class CompanyCreateView(CreateView):
+class CompanyCreateView(SuccessMessageMixin, CreateView):
     model = models.Company
     template_name = "company/create_company.html"
     fields = ["name", "status", "phone_number", "email", "identification_number"]
     success_url = reverse_lazy("index")
+    success_message = "Company created!"
 
 class CompanyListView(LoginRequiredMixin, ListView):
     model = models.Company
@@ -25,25 +26,27 @@ class OpportunityListView(LoginRequiredMixin, ListView):
     model = models.Opportunity
     template_name = "company/list_opportunity.html"
 
-class OpportunityCreateView(PermissionRequiredMixin, CreateView):
+class OpportunityCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
     permission_required = 'crm.add_opportunity'
     model = models.Opportunity
     template_name = "company/create_company.html"
     fields = ["company", "sales_manager", "primary_contact", "description", "status"]
     success_url = reverse_lazy("index")
+    success_message = "Opportunity created!"
 
-class OpportunityUpdateView(PermissionRequiredMixin, UpdateView):
+class OpportunityUpdateView(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
     model = models.Opportunity
     template_name = "opportunity/update_opportunity.html"
     fields = ["company", "primary_contact", "description", "status"]
     success_url = reverse_lazy("index")
+    success_message = "Opportunity updated!"
 
 
 class EmployeeUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     template_name = "employee/update_employee.html"
-    fields = ['department', 'phone_number']
+    fields = ['department', 'phone_number', "office_number", "manager"]
     success_url = reverse_lazy("employee_update")
-    success_message = "Data was updated successfully"
+    success_message = "Data was updated successfully!"
 
     def get_object(self, queryset=None):
         return self.request.user.employee

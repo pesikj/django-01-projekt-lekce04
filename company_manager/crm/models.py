@@ -53,7 +53,10 @@ class Opportunity(models.Model):
 class Employee(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     department = models.CharField(max_length=100, blank=True)
+    # Tvorba atributu přesunuta z lekce do cvičení
     phone_number = models.CharField(max_length=20, blank=True)
+    office_number = models.CharField(max_length=10, blank=True)
+    manager = models.ForeignKey("Employee", on_delete=models.SET_NULL, null=True, blank=True)
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
