@@ -11,13 +11,11 @@
 </head>
 <body>
 {% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <div class="alert alert-primary {{ message.tags }}" role="alert">
-        {{ message }}
-    </div>
-    {% endfor %}
-</ul>
+{% for message in messages %}
+<div class="alert alert-primary {{ message.tags }}" role="alert">
+    {{ message }}
+</div>
+{% endfor %}
 {% endif %}
 <nav class="navbar navbar-expand-sm">
     <div class="container-fluid">
